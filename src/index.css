@@ -1,0 +1,56 @@
+@import url("https://fonts.googleapis.com/css2?family=Work+Sans:ital,wght@0,100..900;1,100..900&display=swap");
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+    @apply bg-[#161324]
+}
+
+.active-link {
+  position: relative;
+  padding: 5px 0px;
+}
+
+.active-link::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  width: 0%;
+  height: 2px;
+  background-color: red;
+  transition: width 0.25s ease-out, left 0.25s ease-out;
+}
+
+.active-link:hover::after {
+  left: 0;
+  width: 100%;
+}
+
+.active-nav {
+  color: #ff5059;
+  font-weight: bolder;
+}
+
+
+.image-container::after {
+    content: "";
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    background-color: black;
+    opacity: 0.3;
+}
+
+.swiper-button-prev, .swiper-button-next {
+    display: none;
+  }
+
+/* clear search */
+input[type="search"]::-webkit-search-cancel-button {
+  -webkit-appearance: none;
+}
