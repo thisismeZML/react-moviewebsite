@@ -10,10 +10,13 @@ import { Pagination, Navigation, Autoplay } from "swiper/modules";
 import { Button } from "@mui/material";
 import { NavLink, useSearchParams } from "react-router-dom";
 import PaginationMovie from "../components/PaginationMovie";
+import Skeletons from "../components/Skeletons";
 
 const PopularPage = () => {
   const [popularMovies, setPopularMovies] = useState([]);
   const [movieBanner, setMovieBanner] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState(null);
 
   // pagination
   const [currentPage, setCurrentPage] = useState(1);
@@ -30,10 +33,18 @@ const PopularPage = () => {
   const [searchTerms, setSearchTerm] = useSearchParams();
 
   const fetchPopularMovies = async () => {
-    const res = await movieAPI.get(
-      `https://api.themoviedb.org/3/movie/popular?api_key=${apiKey}`
-    );
-    setPopularMovies(res.data.results);
+    setIsLoading(true);
+    setError(null);
+    try {
+      const res = await movieAPI.get(
+        `https://api.themoviedb.org/3/movie/popular?api_key=${apiKey}`
+      );
+      setPopularMovies(res.data.results);
+    } catch (error) {
+      setError("Failed to fetch popular movies");
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const fetchMovies = async () => {
@@ -53,6 +64,8 @@ const PopularPage = () => {
   const loadMoreMovies = () => {
     setCurrentPage((prevPage) => prevPage + 1);
   };
+
+  const skeletons = Array.from({ length: 12 }, (_, index) => index);
 
   return (
     <div>
@@ -101,15 +114,17 @@ const PopularPage = () => {
       </Swiper>
 
       <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 xl:grid-cols-6 gap-4 container mt-[50px] mb-[50px]">
-        {currentMovies.map((movie) => (
-          <div key={movie.id}>
-            <NavLink to={`movie/${movie.id}`}>
-              <div>
-                <img src={`${baseImageUrl}${movie.poster_path}`} alt="" />
+        {isLoading
+          ? skeletons.map((ske,index) => <Skeletons key={index}/>)
+          : currentMovies.map((movie) => (
+              <div key={movie.id}>
+                <NavLink to={`movie/${movie.id}`}>
+                  <div>
+                    <img src={`${baseImageUrl}${movie.poster_path}`} alt="" />
+                  </div>
+                </NavLink>
               </div>
-            </NavLink>
-          </div>
-        ))}
+            ))}
       </div>
       <div className="text-white flex flex-col items-center mb-4">
         <PaginationMovie

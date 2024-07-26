@@ -40,7 +40,7 @@ const Navbar = () => {
               <li className="active-link">Top Rated</li>
             </NavLink>
             <NavLink
-              to="/upcoming"
+              to="/upcomming"
               className={({ isActive }) => (isActive ? "active-nav" : "")}
             >
               <li className="active-link">Upcoming</li>
@@ -54,7 +54,7 @@ const Navbar = () => {
               <CiMenuFries className="text-[24px]" />
             </button>
             <div
-              className={`bg-[#363636] absolute -bottom-[90px] py-2 px-6 right-0 font-primaryFont flex flex-col gap-5 duration-200 ${
+              className={`bg-[#363636] absolute -bottom-[50px] py-2 px-6 right-0 font-primaryFont flex flex-col gap-5 duration-200 ${
                 isActive
                   ? "opacity-100 translate-y-0"
                   : "opacity-0 translate-y-[20px]"
@@ -65,12 +65,6 @@ const Navbar = () => {
                   <CiHeart />
                 </button>
                 <button>FAVOURITES</button>
-              </NavLink>
-              <NavLink to="/reviews" className="flex items-center gap-5">
-                <button>
-                  <MdOutlineRateReview />
-                </button>
-                <button>REVIEWS</button>
               </NavLink>
             </div>
           </div>
